@@ -60,11 +60,4 @@ public class TileProps : MonoBehaviour, IAStarNode
 
         return estimated;
     }    
-
-    // public void SaveNeighbors() {
-
-    //     neighbours.Clear();
-    //     Debug.Log("TEST");
-
-    // }
 }

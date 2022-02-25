@@ -30,12 +30,6 @@ public class MapGenerator : MonoBehaviour
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     private void generateMap(int[,] gridArray, float cellSize, GameObject tileGroup) {
 
         for (int a = 0; a < gridArray.GetLength(0); a++) {
