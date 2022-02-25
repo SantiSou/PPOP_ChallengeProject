@@ -59,6 +59,7 @@ public class Pathfinding : MonoBehaviour
         foreach (TileProps tile in drawPath) {
             
             tile.pathGenerated = true;
+            tile.timer = 0.0f;
             if (tile != start && tile != goal) {
                 tile._spriterenderer.color = Color.red;
             }

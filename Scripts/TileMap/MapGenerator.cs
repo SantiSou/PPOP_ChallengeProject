@@ -36,7 +36,6 @@ public class MapGenerator : MonoBehaviour
 
             for (int b = 0; b < gridArray.GetLength(1); b++) {
 
-                // GameObject tile = new GameObject();
                 GameObject tile = Instantiate(manager.tilePrefabs[Random.Range(0, 5)], GetWorldPosition(a, b), Quaternion.identity);
                 indentTile = indentTile ? false : true;
 
@@ -56,99 +55,93 @@ public class MapGenerator : MonoBehaviour
         if (x == 0) {
             x += indentTile ? (cellSize/2) : (0.3f*x);
         }
-        else { // 
+        else {
             x = indentTile ? (cellSize*x)+(cellSize/2) : (cellSize*x);
         }
 
-        return new Vector3(x, y); // * cellSize;
+        return new Vector3(x, y);
     }
 
     public void MakeNeighborhood(GameObject Tiles) {
 
         foreach (Transform tile in Tiles.transform) {
             
-            BottomLeft.Clear();
-            Left.Clear();
-            TopLeft.Clear();
-            TopRight.Clear();
-            Right.Clear();
-            BottomRight.Clear();
+            if (tile.GetComponent<TileProps>().isWalkable) {  
+                   
+                BottomLeft.Clear();
+                Left.Clear();
+                TopLeft.Clear();
+                TopRight.Clear();
+                Right.Clear();
+                BottomRight.Clear();
 
-            Left.Add(tile.GetComponent<TileProps>().coords[0]-1);
-            Left.Add(tile.GetComponent<TileProps>().coords[1]);
-            Right.Add(tile.GetComponent<TileProps>().coords[0]+1);
-            Right.Add(tile.GetComponent<TileProps>().coords[1]);
+                Left.Add(tile.GetComponent<TileProps>().coords[0]-1);
+                Left.Add(tile.GetComponent<TileProps>().coords[1]);
+                Right.Add(tile.GetComponent<TileProps>().coords[0]+1);
+                Right.Add(tile.GetComponent<TileProps>().coords[1]);
 
-            if ((tile.GetComponent<TileProps>().coords[1]%2) == 0) {
+                if ((tile.GetComponent<TileProps>().coords[1]%2) == 0) {
 
-                TopRight.Add(tile.GetComponent<TileProps>().coords[0]);
-                TopRight.Add(tile.GetComponent<TileProps>().coords[1]+1);
+                    TopRight.Add(tile.GetComponent<TileProps>().coords[0]);
+                    TopRight.Add(tile.GetComponent<TileProps>().coords[1]+1);
 
-                TopLeft.Add(tile.GetComponent<TileProps>().coords[0]-1);
-                TopLeft.Add(tile.GetComponent<TileProps>().coords[1]+1);                
+                    TopLeft.Add(tile.GetComponent<TileProps>().coords[0]-1);
+                    TopLeft.Add(tile.GetComponent<TileProps>().coords[1]+1);                
 
-                BottomRight.Add(tile.GetComponent<TileProps>().coords[0]);
-                BottomRight.Add(tile.GetComponent<TileProps>().coords[1]-1);
+                    BottomRight.Add(tile.GetComponent<TileProps>().coords[0]);
+                    BottomRight.Add(tile.GetComponent<TileProps>().coords[1]-1);
 
-                BottomLeft.Add(tile.GetComponent<TileProps>().coords[0]-1);
-                BottomLeft.Add(tile.GetComponent<TileProps>().coords[1]-1);
+                    BottomLeft.Add(tile.GetComponent<TileProps>().coords[0]-1);
+                    BottomLeft.Add(tile.GetComponent<TileProps>().coords[1]-1);
 
-            }
-            else {
-
-                TopRight.Add(tile.GetComponent<TileProps>().coords[0]+1);
-                TopRight.Add(tile.GetComponent<TileProps>().coords[1]+1);
-
-                TopLeft.Add(tile.GetComponent<TileProps>().coords[0]);
-                TopLeft.Add(tile.GetComponent<TileProps>().coords[1]+1);                
-
-                BottomRight.Add(tile.GetComponent<TileProps>().coords[0]+1);
-                BottomRight.Add(tile.GetComponent<TileProps>().coords[1]-1);
-
-                BottomLeft.Add(tile.GetComponent<TileProps>().coords[0]);
-                BottomLeft.Add(tile.GetComponent<TileProps>().coords[1]-1);                
-
-            }
-
-            foreach (Transform tileNeigh in Tiles.transform) {
-
-                if (tileNeigh.GetComponent<TileProps>().coords[0] == BottomLeft[0] && tileNeigh.GetComponent<TileProps>().coords[1] == BottomLeft[1]) {
-                    
-                    if (tileNeigh.GetComponent<TileProps>().isWalkable) {
-                        tile.GetComponent<TileProps>().neighbours.Add(tileNeigh.GetComponent<TileProps>());
-                    }
                 }
-                else if (tileNeigh.GetComponent<TileProps>().coords[0] == Left[0] && tileNeigh.GetComponent<TileProps>().coords[1] == Left[1]) {
-                    
-                    if (tileNeigh.GetComponent<TileProps>().isWalkable) {
-                        tile.GetComponent<TileProps>().neighbours.Add(tileNeigh.GetComponent<TileProps>());
-                    }
+                else {
+
+                    TopRight.Add(tile.GetComponent<TileProps>().coords[0]+1);
+                    TopRight.Add(tile.GetComponent<TileProps>().coords[1]+1);
+
+                    TopLeft.Add(tile.GetComponent<TileProps>().coords[0]);
+                    TopLeft.Add(tile.GetComponent<TileProps>().coords[1]+1);                
+
+                    BottomRight.Add(tile.GetComponent<TileProps>().coords[0]+1);
+                    BottomRight.Add(tile.GetComponent<TileProps>().coords[1]-1);
+
+                    BottomLeft.Add(tile.GetComponent<TileProps>().coords[0]);
+                    BottomLeft.Add(tile.GetComponent<TileProps>().coords[1]-1);                
+
                 }
-                else if (tileNeigh.GetComponent<TileProps>().coords[0] == TopLeft[0] && tileNeigh.GetComponent<TileProps>().coords[1] == TopLeft[1]) {
-                    
+
+                foreach (Transform tileNeigh in Tiles.transform) {
+
                     if (tileNeigh.GetComponent<TileProps>().isWalkable) {
-                        tile.GetComponent<TileProps>().neighbours.Add(tileNeigh.GetComponent<TileProps>());
+
+                        if (tileNeigh.GetComponent<TileProps>().coords[0] == BottomLeft[0] && tileNeigh.GetComponent<TileProps>().coords[1] == BottomLeft[1]) {
+                            
+                            tile.GetComponent<TileProps>().neighbours.Add(tileNeigh.GetComponent<TileProps>());
+                        }
+                        else if (tileNeigh.GetComponent<TileProps>().coords[0] == Left[0] && tileNeigh.GetComponent<TileProps>().coords[1] == Left[1]) {
+                            
+                            tile.GetComponent<TileProps>().neighbours.Add(tileNeigh.GetComponent<TileProps>());
+                        }
+                        else if (tileNeigh.GetComponent<TileProps>().coords[0] == TopLeft[0] && tileNeigh.GetComponent<TileProps>().coords[1] == TopLeft[1]) {
+                            
+                            tile.GetComponent<TileProps>().neighbours.Add(tileNeigh.GetComponent<TileProps>());
+                        }
+                        else if (tileNeigh.GetComponent<TileProps>().coords[0] == TopRight[0] && tileNeigh.GetComponent<TileProps>().coords[1] == TopRight[1]) {
+                            
+                            tile.GetComponent<TileProps>().neighbours.Add(tileNeigh.GetComponent<TileProps>());
+                        }
+                        else if (tileNeigh.GetComponent<TileProps>().coords[0] == Right[0] && tileNeigh.GetComponent<TileProps>().coords[1] == Right[1]) {
+                            
+                            tile.GetComponent<TileProps>().neighbours.Add(tileNeigh.GetComponent<TileProps>());
+                        }
+                        else if (tileNeigh.GetComponent<TileProps>().coords[0] == BottomRight[0] && tileNeigh.GetComponent<TileProps>().coords[1] == BottomRight[1]) {
+                            
+                            tile.GetComponent<TileProps>().neighbours.Add(tileNeigh.GetComponent<TileProps>());
+                        }
                     }
-                }
-                else if (tileNeigh.GetComponent<TileProps>().coords[0] == TopRight[0] && tileNeigh.GetComponent<TileProps>().coords[1] == TopRight[1]) {
-                    
-                    if (tileNeigh.GetComponent<TileProps>().isWalkable) {
-                        tile.GetComponent<TileProps>().neighbours.Add(tileNeigh.GetComponent<TileProps>());
-                    }
-                }
-                else if (tileNeigh.GetComponent<TileProps>().coords[0] == Right[0] && tileNeigh.GetComponent<TileProps>().coords[1] == Right[1]) {
-                    
-                    if (tileNeigh.GetComponent<TileProps>().isWalkable) {
-                        tile.GetComponent<TileProps>().neighbours.Add(tileNeigh.GetComponent<TileProps>());
-                    }
-                }
-                else if (tileNeigh.GetComponent<TileProps>().coords[0] == BottomRight[0] && tileNeigh.GetComponent<TileProps>().coords[1] == BottomRight[1]) {
-                    
-                    if (tileNeigh.GetComponent<TileProps>().isWalkable) {
-                        tile.GetComponent<TileProps>().neighbours.Add(tileNeigh.GetComponent<TileProps>());
-                    }
-                }
-            }            
+                }  
+            }          
         }
     }
 }

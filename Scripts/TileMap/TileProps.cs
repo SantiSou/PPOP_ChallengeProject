@@ -19,7 +19,7 @@ public class TileProps : MonoBehaviour, IAStarNode
     public bool pathGenerated;
     public List<int> coords = new List<int>();
 
-    private float timer;
+    public float timer;
 
     void Awake()
     {
@@ -41,11 +41,6 @@ public class TileProps : MonoBehaviour, IAStarNode
         }
     }
 
-    public void OnMouseDown()
-    {
-        _pathfinding.TileClicked(this);
-    }
-
     public float CostTo(IAStarNode neighbour)
     {
         return cost;
@@ -59,5 +54,10 @@ public class TileProps : MonoBehaviour, IAStarNode
                         (Math.Abs(this.GetComponent<TileProps>().coords[1]) - Math.Abs(goalTransform.GetComponent<TileProps>().coords[1]));
 
         return estimated;
-    }    
+    }  
+
+    public void OnMouseDown()
+    {
+        _pathfinding.TileClicked(this);
+    }  
 }
